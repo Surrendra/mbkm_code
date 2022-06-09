@@ -27,7 +27,6 @@ class BlogService
     public function uploadFile($data)
     {
         if (empty($data['image'])) {
-            $data['image'] = null;
             return $data;
         }
         $data['image'] = Storage::put('blog',$data['image']);
