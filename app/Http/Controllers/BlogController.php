@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\BlogService;
 
@@ -24,12 +25,14 @@ class BlogController extends Controller
 
     public function create()
     {
-        $form_data = [
-            'title' => 'Ini Blog SPBE',
-            'description' => 'This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.',
-            'created_user_id' => 1
-        ];
-        $blog = $this->BlogService->create($form_data);
-        return $blog;
+        return view('blog.form');
+    }
+
+    public function store(Request $request)
+    {
+        $user = User::query()->first();
+        $request['created_user_id'] = $user->id;
+        $this->BlogService->create($request->all());
+        return redirect()->route('blog.index');
     }
 }

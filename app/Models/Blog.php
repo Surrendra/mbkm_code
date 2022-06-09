@@ -13,7 +13,7 @@ class Blog extends Model
     ];
 
     protected $fillable = [
-        'title', 'description','created_user_id'
+        'title', 'description','created_user_id', 'image'
     ];
 
     public function createdUser()

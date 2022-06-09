@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Blog;
+use Illuminate\Support\Facades\Storage;
 
 class BlogService
 {
@@ -19,10 +20,17 @@ class BlogService
 
     public function create($data = [])
     {
-        return Blog::create([
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'created_user_id' => $data['created_user_id'],
-        ]); 
+        $data = $this->uploadFile($data);
+        return Blog::create($data); 
+    }
+
+    public function uploadFile($data)
+    {
+        if (empty($data['image'])) {
+            $data['image'] = null;
+            return $data;
+        }
+        $data['image'] = Storage::put('blog',$data['image']);
+        return $data;
     }
 }
